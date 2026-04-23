@@ -8,7 +8,10 @@ alwaysApply: true
 ## Directory Structure — Never Break
 
 ```
-src/
+web/
+  src/                # React/Vite dashboard source
+  public/             # static assets and derived dashboard data
+ml/
   mlmodel.py          # pipeline: load, encode, train, evaluate, infer, save
   models/             # one file per model class (inherits BaseModel)
 params/
@@ -24,8 +27,8 @@ outputs/
 ## Rules
 
 - `dataset/` and `dataset_cleaned/` are **read-only** — never write, move, or delete files there
-- `src/mlmodel.py` is the single pipeline entrypoint (load data, encode, train, evaluate, infer, save)
-- New models go in `src/models/` following `BaseModel` interface
+- `ml/mlmodel.py` is the single ML pipeline entrypoint (load data, encode, train, evaluate, infer, save)
+- New models go in `ml/models/` following `BaseModel` interface
 - `params/ml_params.yaml` stays minimal — no hardcoded paths elsewhere
 - Submissions always go to `outputs/submissions/`
 - Performance artifacts (metrics, plots, feature importances) go to `outputs/res_perf/`

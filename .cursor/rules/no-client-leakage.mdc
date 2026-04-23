@@ -1,6 +1,6 @@
 ---
-description: Enforces the cold-start constraint — no client-level leakage in features. Apply when writing feature engineering code in notebooks or src/.
-globs: notebooks/**/*.ipynb,src/**/*.py
+description: Enforces the cold-start constraint — no client-level leakage in features. Apply when writing feature engineering code in notebooks or ml/.
+globs: notebooks/**/*.ipynb,ml/**/*.py
 alwaysApply: false
 ---
 
