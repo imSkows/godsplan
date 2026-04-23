@@ -6,3 +6,8 @@ __pycache__/
 .env
 venv/
 env/
+
+# Node
+node_modules/
+web/node_modules/
+.npm/
