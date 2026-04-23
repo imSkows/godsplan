@@ -9,11 +9,12 @@ alwaysApply: true
 
 ```
 src/
-  mlmodel.py          # orchestrateur: train, optimize, infer, save
+  mlmodel.py          # pipeline: load, encode, train, evaluate, infer, save
   models/             # one file per model class (inherits BaseModel)
 params/
   ml_params.yaml      # ML config (model, optuna, threshold)
-dataset/              # read-only, never modify
+dataset/              # raw hackathon data, read-only, never modify
+dataset_cleaned/      # preprocessed parquet files, read-only
 notebooks/            # one per author/experiment
 outputs/
   res_perf/           # performance artifacts (metrics, plots, feature importances)
@@ -22,10 +23,11 @@ outputs/
 
 ## Rules
 
-- `dataset/` is **read-only** — never write, move, or delete files there
-- `src/mlmodel.py` orchestrates training, optimization, inference and saving via `MLModel` class
+- `dataset/` and `dataset_cleaned/` are **read-only** — never write, move, or delete files there
+- `src/mlmodel.py` is the single pipeline entrypoint (load data, encode, train, evaluate, infer, save)
 - New models go in `src/models/` following `BaseModel` interface
 - `params/ml_params.yaml` stays minimal — no hardcoded paths elsewhere
 - Submissions always go to `outputs/submissions/`
 - Performance artifacts (metrics, plots, feature importances) go to `outputs/res_perf/`
 - Never commit trained model artifacts (`.joblib`) — already in `.gitignore`
+- Category encoding is fitted on train and applied to eval to avoid mismatch
