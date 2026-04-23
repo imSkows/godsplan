@@ -1,8 +1,4 @@
 # Data files
-*.csv
-*.parquet
-*.json
-*.pdf
 
 # Python
 __pycache__/
