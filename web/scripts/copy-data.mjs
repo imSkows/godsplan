@@ -3,9 +3,10 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(__dirname, "..");
-const SRC = join(ROOT, "data");
-const DST = join(ROOT, "public", "data");
+const WEB_ROOT = join(__dirname, "..");
+const PROJECT_ROOT = join(__dirname, "..", "..");
+const SRC = join(PROJECT_ROOT, "dataset");
+const DST = join(WEB_ROOT, "public", "data");
 
 const files = [
   "transactions_train.csv",

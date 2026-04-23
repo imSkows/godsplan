@@ -1,16 +1,16 @@
 ---
 name: ml-engineering
-description: Guides model class creation, inference pipeline design, and production-ready ML code for fraud detection. Use when adding a new model to src/models/, editing src/mlmodel.py, building a prediction pipeline, or writing reusable training/inference code.
+description: Guides model class creation, inference pipeline design, and production-ready ML code for fraud detection. Use when adding a new model to ml/models/, editing ml/mlmodel.py, building a prediction pipeline, or writing reusable training/inference code.
 ---
 
 # ML Engineering — Fraud Detection
 
 ## Model Class Convention
 
-Every new model goes in `src/models/<name>.py` and inherits `BaseModel`:
+Every new model goes in `ml/models/<name>.py` and inherits `BaseModel`:
 
 ```python
-# src/models/lightgbm.py
+# ml/models/lightgbm.py
 from __future__ import annotations
 import joblib
 import pandas as pd
@@ -51,7 +51,7 @@ class LightGBM(BaseModel):
 
 ## Registering in MLModel
 
-Add to `src/mlmodel.py` `MODEL_REGISTRY`:
+Add to `ml/mlmodel.py` `MODEL_REGISTRY`:
 
 ```python
 from models.lightgbm import LightGBM
@@ -66,7 +66,7 @@ Then add an Optuna search space in `MLModel.optuna_objectives()`.
 
 ## Inference Pipeline
 
-`src/mlmodel.py` is the single orchestration entrypoint:
+`ml/mlmodel.py` is the single orchestration entrypoint:
 - Load config from `params/ml_params.yaml`
 - Instantiate model by name via `MODEL_REGISTRY`
 - `MLModel.run()` orchestrates: optimize -> train -> save -> infer (optional)

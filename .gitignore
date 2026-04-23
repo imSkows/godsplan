@@ -5,9 +5,10 @@ dist
 .env*
 *.log
 .vite
-public/data/*.csv
-public/data/*.json
-!public/data/.gitkeep
+web/public/data/*.csv
+web/public/data/*.json
+!web/public/data/.gitkeep
+*.tsbuildinfo
 
 # Python/Backend
 __pycache__/

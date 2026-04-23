@@ -7,15 +7,17 @@ IBM x EFREI — Data Science Hackathon
 ```text
 .
 ├── dataset/                     # Provided hackathon data (read-only)
+├── web/                         # React/Vite dashboard
+│   ├── src/                     # Frontend app source
+│   ├── public/                  # Frontend static assets and derived data
+│   └── scripts/                 # Frontend data prep scripts
+├── ml/                          # Python ML pipeline and models
+│   ├── mlmodel.py               # Orchestrateur: train, optimize, infer, save
+│   └── models/                  # BaseModel + model implementations
 ├── info/
 │   └── instructions.pdf         # Hackathon instructions
 ├── params/
 │   └── ml_params.yaml           # ML config (model, optuna, threshold)
-├── src/
-│   ├── mlmodel.py               # Orchestrateur: train, optimize, infer, save
-│   └── models/
-│       ├── base_model.py        # BaseModel (interface abstraite)
-│       └── xgboost.py           # XGBoost (premier modele)
 ├── notebooks/
 │   └── exploration_anthony.ipynb
 ├── outputs/
@@ -32,7 +34,7 @@ IBM x EFREI — Data Science Hackathon
 ```bash
 pip install -r requirements.txt
 
-python src/mlmodel.py --train-csv <features.csv> --target-col fraud_label
-python src/mlmodel.py --train-csv <features.csv> --infer-csv <eval.csv>
-python src/mlmodel.py --train-csv <features.csv> --no-optuna
+python ml/mlmodel.py --train-csv <features.csv> --target-col fraud_label
+python ml/mlmodel.py --train-csv <features.csv> --infer-csv <eval.csv>
+python ml/mlmodel.py --train-csv <features.csv> --no-optuna
 ```

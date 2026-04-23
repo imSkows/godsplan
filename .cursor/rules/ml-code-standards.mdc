@@ -1,6 +1,6 @@
 ---
-description: ML code quality standards for model classes and inference pipeline. Apply when editing Python files in src/.
-globs: src/**/*.py
+description: ML code quality standards for model classes and inference pipeline. Apply when editing Python files in ml/.
+globs: ml/**/*.py
 alwaysApply: false
 ---
 
@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## Model Classes
 
-- Inherit `BaseModel` from `src/models/base_model.py` — never break the interface
+- Inherit `BaseModel` from `ml/models/base_model.py` — never break the interface
 - `predict()` returns binary `pd.Series` (0/1)
 - `predict_proba()` returns float `pd.Series` (scores)
 - `save()` / `load()` use `joblib`
@@ -32,7 +32,7 @@ def predict_proba(self, X: pd.DataFrame) -> pd.Series: ...
 
 ```python
 # ❌
-model = joblib.load("src/models/my_model.joblib")
+model = joblib.load("ml/models/my_model.joblib")
 
 # ✅ read from config
 cfg = yaml.safe_load(open("params/ml_params.yaml"))
