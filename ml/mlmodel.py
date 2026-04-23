@@ -29,7 +29,7 @@ ID_COLS = ["transaction_id", "client_id", "card_id", "merchant_id", "card_number
 DROP_COLS = [
     "date", "address", "acct_open_date", "expires",
     "amount", "credit_limit", "per_capita_income", "yearly_income", "total_debt",
-    "card_on_dark_web", "datetime", "day_name",
+    "datetime", "day_name",
     "birth_year", "birth_month", "latitude", "longitude",
     "mcc_desc", "year",
 ]
@@ -242,6 +242,7 @@ def main() -> None:
     parser.add_argument("--eval-data", help="Eval file (no target, for submission)")
     parser.add_argument("--target-col", default="is_fraud", help="Target column name")
     parser.add_argument("--no-optuna", action="store_true")
+    parser.add_argument("--load-model", help="Path to pre-trained model to load instead of training")
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")
@@ -277,7 +278,11 @@ def main() -> None:
 
     # --- Train (Optuna on train, evaluate on test) ---
     ml = MLModel(config_path=args.config)
-    ml.train(X_train, y_train, use_optuna=not args.no_optuna)
+    if args.load_model:
+        log.info("Loading pre-trained model from %s", args.load_model)
+        ml.load(args.load_model)
+    else:
+        ml.train(X_train, y_train, use_optuna=not args.no_optuna)
 
     if X_test is not None and y_test is not None:
         log.info("Evaluating on test set...")

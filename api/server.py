@@ -110,11 +110,11 @@ job = JobState()
 
 
 class RunRequest(BaseModel):
-    train_data: str = "dataset_cleaned/train_original_ratio.parquet"
-    test_data: Optional[str] = "dataset_cleaned/test_original_ratio.parquet"
-    eval_data: Optional[str] = "dataset_cleaned/test_original_ratio.parquet"
+    train_data: str = "prepared_train_000.5_pct.parquet"
+    test_data: Optional[str] = "prepared_test_050.0_pct.parquet"
+    eval_data: Optional[str] = "prepared_test_050.0_pct.parquet"
     target_col: str = "is_fraud"
-    no_optuna: bool = False
+    no_optuna: bool = True
     export_web: bool = True
 
 
@@ -141,6 +141,7 @@ def _run_pipeline(req: RunRequest) -> None:
             str(PROJECT_ROOT / "ml" / "mlmodel.py"),
             "--train-data", str(PROJECT_ROOT / req.train_data),
             "--target-col", req.target_col,
+            "--load-model", str(PROJECT_ROOT / "xgb_OPTUNA_BEST.ubj")
         ]
         if req.test_data:
             cmd += ["--test-data", str(PROJECT_ROOT / req.test_data)]
@@ -242,7 +243,7 @@ def get_logs(offset: int = 0) -> Dict[str, Any]:
 
 
 class ExportRequest(BaseModel):
-    eval_data: str = "dataset_cleaned/test_original_ratio.parquet"
+    eval_data: str = "prepared_test_050.0_pct.parquet"
     target_col: str = "is_fraud"
 
 
@@ -259,10 +260,11 @@ def _run_export(req: ExportRequest) -> None:
         cmd = [
             env_bin,
             str(PROJECT_ROOT / "ml" / "mlmodel.py"),
-            "--train-data", str(PROJECT_ROOT / "dataset_cleaned" / "train_original_ratio.parquet"),
+            "--train-data", str(PROJECT_ROOT / "prepared_train_000.5_pct.parquet"),
             "--eval-data", str(PROJECT_ROOT / req.eval_data),
             "--target-col", req.target_col,
             "--no-optuna",
+            "--load-model", str(PROJECT_ROOT / "xgb_OPTUNA_BEST.ubj")
         ]
         job.append_log(f"$ {' '.join(cmd)}")
         proc = subprocess.Popen(
@@ -302,7 +304,7 @@ def trigger_export(req: ExportRequest = ExportRequest()) -> Dict[str, Any]:
     if job.status == "running":
         raise HTTPException(status_code=409, detail="A job is already running")
 
-    model_path = PROJECT_ROOT / "outputs" / "models" / "xgboost_fraud.joblib"
+    model_path = PROJECT_ROOT / "xgb_OPTUNA_BEST.ubj"
     if not model_path.exists():
         raise HTTPException(status_code=400, detail="No trained model found. Run training first.")
 

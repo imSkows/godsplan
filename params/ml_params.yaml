@@ -1,0 +1,8 @@
+model:
+  name: xgboost
+  threshold: 0.5
+  output_path: outputs/models/xgboost_fraud.joblib
+optuna:
+  n_trials: 20
+  validation_size: 0.2
+  n_estimators: 300

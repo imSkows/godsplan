@@ -48,5 +48,10 @@ class XGBoost(BaseModel):
     @classmethod
     def load(cls, path: str) -> "XGBoost":
         instance = cls()
-        instance.model = joblib.load(path)
+        if path.endswith(".ubj") or path.endswith(".json"):
+            import xgboost as xgb
+            instance.model = xgb.XGBClassifier()
+            instance.model.load_model(path)
+        else:
+            instance.model = joblib.load(path)
         return instance

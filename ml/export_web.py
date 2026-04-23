@@ -25,9 +25,9 @@ log = logging.getLogger(__name__)
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Export ML predictions for web dashboard")
-    parser.add_argument("--model", default="outputs/models/xgboost_fraud.joblib")
+    parser.add_argument("--model", default="xgb_OPTUNA_BEST.ubj")
     parser.add_argument("--cat-maps", default="outputs/models/cat_maps.json")
-    parser.add_argument("--data", default="dataset_cleaned/train_original_ratio.parquet",
+    parser.add_argument("--data", default="prepared_test_050.0_pct.parquet",
                         help="Parquet file to predict on (must have transaction_id)")
     parser.add_argument("--target-col", default="is_fraud")
     parser.add_argument("--output", default="web/public/data/predictions.json")
@@ -37,7 +37,12 @@ def main() -> None:
 
     import joblib
     log.info("Loading model from %s", args.model)
-    model = joblib.load(args.model)
+    if args.model.endswith(".ubj") or args.model.endswith(".json"):
+        import xgboost as xgb
+        model = xgb.XGBClassifier()
+        model.load_model(args.model)
+    else:
+        model = joblib.load(args.model)
 
     cat_maps = None
     cat_maps_path = Path(args.cat_maps)
@@ -57,6 +62,9 @@ def main() -> None:
 
     log.info("Predicting on %d transactions...", len(X))
     probas = model.predict_proba(X)[:, 1]
+
+    if txn_ids is None:
+        txn_ids = pd.Series(range(len(X)))
 
     predictions = []
     for tid, prob in zip(txn_ids.values, probas):

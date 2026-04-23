@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = join(__dirname, "..");
 const PROJECT_ROOT = join(__dirname, "..", "..");
-const SRC = join(PROJECT_ROOT, "dataset");
+const SRC = PROJECT_ROOT;
 const DST = join(WEB_ROOT, "public", "data");
 
 const files = [
