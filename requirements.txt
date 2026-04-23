@@ -5,3 +5,4 @@ xgboost
 optuna
 pyyaml
 joblib
+pyarrow

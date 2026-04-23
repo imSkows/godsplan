@@ -6,16 +6,17 @@ IBM x EFREI — Data Science Hackathon
 
 ```text
 .
-├── dataset/                     # Provided hackathon data (read-only)
+├── dataset/                     # Raw hackathon data (read-only)
+├── dataset_cleaned/             # Preprocessed parquet files (train + test at various fraud %)
 ├── info/
 │   └── instructions.pdf         # Hackathon instructions
 ├── params/
 │   └── ml_params.yaml           # ML config (model, optuna, threshold)
 ├── src/
-│   ├── mlmodel.py               # Orchestrateur: train, optimize, infer, save
+│   ├── mlmodel.py               # Pipeline: load, encode, train, evaluate, infer, save
 │   └── models/
 │       ├── base_model.py        # BaseModel (interface abstraite)
-│       └── xgboost.py           # XGBoost (premier modele)
+│       └── xgboost.py           # XGBoost
 ├── notebooks/
 │   └── exploration_anthony.ipynb
 ├── outputs/
@@ -23,8 +24,8 @@ IBM x EFREI — Data Science Hackathon
 │   └── submissions/             # Submission CSVs
 ├── requirements.txt
 └── .cursor/
-    ├── rules/                   # Cursor rules (project integrity, git, ML standards)
-    └── skills/                  # Cursor skills (data-scientist, ml-engineering, mlops)
+    ├── rules/
+    └── skills/
 ```
 
 ## Usage
@@ -32,7 +33,22 @@ IBM x EFREI — Data Science Hackathon
 ```bash
 pip install -r requirements.txt
 
-python src/mlmodel.py --train-csv <features.csv> --target-col fraud_label
-python src/mlmodel.py --train-csv <features.csv> --infer-csv <eval.csv>
-python src/mlmodel.py --train-csv <features.csv> --no-optuna
+# Train + evaluate + generate submission
+PYTHONPATH=src python src/mlmodel.py \
+  --train-data dataset_cleaned/prepared_train_000.5_pct.parquet \
+  --eval-data dataset_cleaned/prepared_test_050.0_pct.parquet
+
+# Without Optuna (faster)
+PYTHONPATH=src python src/mlmodel.py \
+  --train-data dataset_cleaned/prepared_train_000.5_pct.parquet \
+  --eval-data dataset_cleaned/prepared_test_050.0_pct.parquet \
+  --no-optuna
+
+# Train only (no eval submission)
+PYTHONPATH=src python src/mlmodel.py \
+  --train-data dataset_cleaned/prepared_train_000.5_pct.parquet
+
+# Custom target column name
+PYTHONPATH=src python src/mlmodel.py \
+  --train-data my_data.csv --target-col fraud_label
 ```

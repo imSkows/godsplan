@@ -1,4 +1,4 @@
-# Paramètres ML du projet fraud detection
+# Parametres ML du projet fraud detection
 
 model:
   name: xgboost
