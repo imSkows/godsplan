@@ -21,4 +21,6 @@ venv/
 outputs/submissions/*.csv
 mlruns/
 .godsplan_sync/
-.claude-flow/
+.claude-flow
+.claude-flow/data/graph-state.json
+.claude-flow/data/ranked-context.json
