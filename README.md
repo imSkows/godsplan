@@ -1,7 +1,5 @@
 # Fraud Detection Hackathon Starter
 
-Base project scaffold for the IBM x EFREI fraud detection hackathon, initialized from the God's Plan template spirit and adapted to the provided dataset files.
-
 ## Project Structure
 
 ```text
