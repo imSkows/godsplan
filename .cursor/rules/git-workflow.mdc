@@ -1,0 +1,40 @@
+---
+description: Git branch naming and commit conventions for the hackathon project.
+alwaysApply: true
+---
+
+# Git Workflow
+
+## Branch Naming
+
+```
+main              # stable, soumission-ready
+<prenom>          # branche personnelle d'exploration (ex: anthony, skows)
+feat/<feature>    # nouvelle feature engineering ou modèle
+exp/<experiment>  # expérimentation isolée
+fix/<bug>         # correction
+```
+
+## Commit Convention
+
+```
+<type>: <short description>
+
+Types: feat | fix | exp | data | model | docs | refactor
+```
+
+Examples:
+```
+feat: add lgbm model class with is_unbalance
+exp: test catboost on mcc target encoded features
+fix: correct amount parsing for negative values
+model: register lightgbm v2 in mlflow
+```
+
+## Rules
+
+- Never commit directly to `main` without review
+- Never commit `dataset/` changes (read-only)
+- Never commit `.joblib` model files
+- Each author works on their own named branch
+- Merge to `main` only when submission-ready

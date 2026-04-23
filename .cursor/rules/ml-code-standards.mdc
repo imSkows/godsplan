@@ -1,0 +1,42 @@
+---
+description: ML code quality standards for model classes and inference pipeline. Apply when editing Python files in src/.
+globs: src/**/*.py
+alwaysApply: false
+---
+
+# ML Code Standards
+
+## Model Classes
+
+- Inherit `BaseFraudModel` — never break the interface
+- `predict()` returns binary `pd.Series` (0/1)
+- `predict_proba()` returns float `pd.Series` (scores)
+- `save()` / `load()` use `joblib`
+- No `print()` — use `logging`
+
+## Type Hints
+
+```python
+# ✅ Always type hint public methods
+def fit(self, X: pd.DataFrame, y: pd.Series) -> None: ...
+def predict_proba(self, X: pd.DataFrame) -> pd.Series: ...
+```
+
+## No Hardcoded Paths
+
+```python
+# ❌
+model = joblib.load("src/models/my_model.joblib")
+
+# ✅ read from config
+from fraud_detection.config import load_config
+cfg = load_config("params/ml_params.yaml")
+```
+
+## Imbalance Handling
+
+Always address the ~0.15% fraud rate explicitly:
+- LightGBM: `is_unbalance=True`
+- XGBoost: `scale_pos_weight=ratio`
+- sklearn: `class_weight='balanced'` or `'balanced_subsample'`
+- Never evaluate with accuracy — use ROC-AUC or PR-AUC

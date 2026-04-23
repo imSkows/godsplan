@@ -1,0 +1,33 @@
+---
+description: Core project structure and integrity rules for the DS_hackathon fraud detection project. Always enforced.
+alwaysApply: true
+---
+
+# Project Integrity
+
+## Directory Structure — Never Break
+
+```
+src/
+  mlmodel.py          # inference entrypoint only
+  models/             # one file per model class
+params/
+  ml_params.yaml      # params placeholder, keep minimal
+dataset/              # read-only, never modify
+notebooks/            # one per author/experiment
+res_perf/             # performance outputs only
+outputs/submissions/  # submission CSVs only
+ai/
+  rules/
+  skills/
+```
+
+## Rules
+
+- `dataset/` is **read-only** — never write, move, or delete files there
+- `src/mlmodel.py` dispatches only — no model logic inside it
+- New models go in `src/models/` following `BaseFraudModel` interface
+- `params/ml_params.yaml` stays minimal — no hardcoded paths elsewhere
+- Submissions always go to `outputs/submissions/submission.csv`
+- Performance artifacts (metrics, plots, feature importances) go to `res_perf/`
+- Never commit trained model artifacts (`.joblib`) — already in `.gitignore`

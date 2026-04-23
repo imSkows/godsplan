@@ -1,0 +1,38 @@
+---
+description: Enforces the cold-start constraint — no client-level leakage in features. Apply when writing feature engineering code in notebooks or src/.
+globs: notebooks/**/*.ipynb,src/**/*.py
+alwaysApply: false
+---
+
+# No Client-Level Leakage
+
+Evaluation clients are **unseen** during training. Any feature aggregated per `client_id` is leakage.
+
+## Forbidden
+
+```python
+# ❌ rolling client fraud history
+df.groupby('client_id')['fraud_label'].mean()
+
+# ❌ client transaction count
+df.groupby('client_id')['transaction_id'].count()
+
+# ❌ client average amount
+df.groupby('client_id')['amount'].mean()
+```
+
+## Allowed
+
+```python
+# ✅ card-level features (card is fixed, not client history)
+df['card_on_dark_web_flag'] = (df['card_on_dark_web'] == 'Yes').astype(int)
+
+# ✅ MCC target encoding (computed within CV folds only)
+mcc_rates = train_fold.groupby('mcc')['fraud_label'].mean()
+
+# ✅ merchant-level features (not client-specific)
+df.groupby('merchant_id')['amount'].mean()
+
+# ✅ static user profile (credit_score, income — not history)
+df.merge(users[['client_id','credit_score','yearly_income']], on='client_id')
+```
