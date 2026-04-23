@@ -14,8 +14,8 @@ export default function App() {
   const bootstrap = useDataStore((s) => s.bootstrap);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
+    document.documentElement.classList.remove("dark");
+  }, []);
 
   useEffect(() => {
     bootstrap();

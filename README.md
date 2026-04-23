@@ -51,6 +51,22 @@ PYTHONPATH=ml python ml/mlmodel.py \
 
 ### Web Dashboard
 
+The dashboard is split in two processes: a FastAPI backend that can trigger the
+ML pipeline on demand, and the Vite dev server for the React UI.
+
 ```bash
-cd web && npm install && npm run dev
+# 1. install deps
+pip install -r requirements.txt
+cd web && npm install && cd ..
+
+# 2. start the API (terminal 1)
+PYTHONPATH=ml uvicorn api.server:app --reload --port 8000
+
+# 3. start the dashboard (terminal 2)
+cd web && npm run dev
+```
+
+Then open the Vite URL (http://localhost:5173). Use the **Run inference**
+button in the top-right corner to train the model and refresh the dashboard's
+predictions live — logs stream in real time.
 ```

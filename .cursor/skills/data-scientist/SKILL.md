@@ -1,6 +1,7 @@
 ---
 name: data-scientist
-description: Guides EDA, feature engineering, and model exploration for fraud detection tabular datasets. Use when exploring data, building features, analyzing distributions, checking class imbalance, or producing insights from transactions/users/cards tables.
+description: Guides EDA, feature engineering, and model exploration for fraud detection tabular datasets. U
+se when exploring data, building features, analyzing distributions, checking class imbalance, or producing insights from transactions/users/cards tables.
 ---
 
 # Data Scientist — Fraud Detection

@@ -9,7 +9,9 @@
     "preview": "vite preview --config web/vite.config.ts",
     "lint": "eslint web --ext ts,tsx",
     "preprocess": "tsx web/scripts/preprocess.ts",
-    "prepare-data": "node web/scripts/copy-data.mjs && tsx web/scripts/preprocess.ts"
+    "prepare-data": "node web/scripts/copy-data.mjs && tsx web/scripts/preprocess.ts",
+    "ml:export": "PYTHONPATH=ml python3 ml/export_web.py",
+    "pipeline": "node web/scripts/copy-data.mjs && PYTHONPATH=ml python3 ml/export_web.py && tsx web/scripts/preprocess.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",

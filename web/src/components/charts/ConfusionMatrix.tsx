@@ -24,9 +24,9 @@ export default function ConfusionMatrix({ metrics, title = "Confusion Matrix", d
           <div className="text-center font-semibold">Predicted: Fraud</div>
 
           <div className="flex items-center font-semibold">Actual: Legit</div>
-          <div className={`${cell} bg-success/15 border border-success/30`}>
+          <div className={`${cell} bg-muted/15 border border-muted-foreground/30`}>
             <div className="text-xs text-muted-foreground">TN</div>
-            <div className="text-xl font-bold text-success">{formatNumber(tn)}</div>
+            <div className="text-xl font-bold text-foreground">{formatNumber(tn)}</div>
             <div className="text-xs text-muted-foreground">{formatPercent(tn / total)}</div>
           </div>
           <div className={`${cell} bg-warning/15 border border-warning/30`}>
@@ -41,9 +41,9 @@ export default function ConfusionMatrix({ metrics, title = "Confusion Matrix", d
             <div className="text-xl font-bold text-destructive">{formatNumber(fn)}</div>
             <div className="text-xs text-muted-foreground">{formatPercent(fn / total)}</div>
           </div>
-          <div className={`${cell} bg-primary/15 border border-primary/30`}>
+          <div className={`${cell} bg-muted/15 border border-muted-foreground/30`}>
             <div className="text-xs text-muted-foreground">TP</div>
-            <div className="text-xl font-bold text-primary">{formatNumber(tp)}</div>
+            <div className="text-xl font-bold text-foreground">{formatNumber(tp)}</div>
             <div className="text-xs text-muted-foreground">{formatPercent(tp / total)}</div>
           </div>
         </div>

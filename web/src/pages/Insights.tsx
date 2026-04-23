@@ -10,8 +10,8 @@ export default function Insights() {
   if (!aggregated) return null;
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <FraudByStateChart
           data={aggregated.fraudByState}
           metric="rate"
@@ -27,7 +27,7 @@ export default function Insights() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Histogram
           title="Fraud by age group"
           description="Proportion of fraudulent tx in each group"
@@ -45,7 +45,7 @@ export default function Insights() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <TemporalChart
           title="Fraud by day of week"
           data={aggregated.fraudByDayOfWeek.map((d) => ({

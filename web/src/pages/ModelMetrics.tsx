@@ -27,15 +27,15 @@ export default function ModelMetrics() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard label="Accuracy" value={formatPercent(metrics.accuracy)} icon={Target} accent="success" />
-        <MetricCard label="Precision" value={formatPercent(metrics.precision)} icon={Crosshair} accent="primary" />
-        <MetricCard label="Recall" value={formatPercent(metrics.recall)} icon={Radar} accent="warning" />
-        <MetricCard label="F1 score" value={formatPercent(metrics.f1)} icon={Activity} accent="destructive" />
+    <div className="space-y-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <MetricCard label="Accuracy" value={formatPercent(metrics.accuracy)} icon={Target} accent="muted" />
+        <MetricCard label="Precision" value={formatPercent(metrics.precision)} icon={Crosshair} accent="muted" />
+        <MetricCard label="Recall" value={formatPercent(metrics.recall)} icon={Radar} accent="muted" />
+        <MetricCard label="F1 score" value={formatPercent(metrics.f1)} icon={Activity} accent="muted" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ConfusionMatrix metrics={metrics} description={`${source === "train" ? "Training" : "Evaluation"} data`} />
         {metrics.rocCurve && metrics.rocCurve.length > 0 ? (
           <RocCurve metrics={metrics} />
@@ -79,13 +79,11 @@ export default function ModelMetrics() {
   );
 }
 
-function RateRow({ label, value, good, bad }: { label: string; value: number; good?: boolean; bad?: boolean }) {
+function RateRow({ label, value }: { label: string; value: number; good?: boolean; bad?: boolean }) {
   return (
     <div className="flex items-center justify-between rounded-md border p-3">
       <span className="text-muted-foreground">{label}</span>
-      <span className={good ? "font-semibold text-success" : bad ? "font-semibold text-destructive" : "font-semibold"}>
-        {formatPercent(value)}
-      </span>
+      <span className="font-semibold">{formatPercent(value)}</span>
     </div>
   );
 }

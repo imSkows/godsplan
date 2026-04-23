@@ -6,3 +6,5 @@ optuna
 pyyaml
 joblib
 pyarrow
+fastapi
+uvicorn[standard]

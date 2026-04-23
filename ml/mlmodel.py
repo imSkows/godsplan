@@ -25,6 +25,16 @@ MODEL_REGISTRY: Dict[str, Type[BaseModel]] = {
     "xgboost": XGBoost,
 }
 
+ID_COLS = ["transaction_id", "client_id", "card_id", "merchant_id", "card_number", "cvv"]
+DROP_COLS = [
+    "date", "address", "acct_open_date", "expires",
+    "amount", "credit_limit", "per_capita_income", "yearly_income", "total_debt",
+    "card_on_dark_web", "datetime", "day_name",
+    "birth_year", "birth_month", "latitude", "longitude",
+    "mcc_desc", "year",
+]
+TARGET_COL_DEFAULT = "is_fraud"
+
 
 def load_config(path: str) -> dict:
     with open(path, encoding="utf-8") as f:
@@ -37,15 +47,35 @@ def _load_file(path: str) -> pd.DataFrame:
     return pd.read_csv(path)
 
 
+def _prepare_features(df: pd.DataFrame, target_col: str) -> tuple[pd.DataFrame, pd.Series | None, pd.Series | None]:
+    """
+    Prepare features from raw merged data.
+    Returns (X, y_or_None, transaction_ids_or_None).
+    """
+    txn_ids = df["transaction_id"] if "transaction_id" in df.columns else None
+    y = df[target_col].astype(int) if target_col in df.columns else None
+
+    drop = [c for c in ID_COLS + DROP_COLS + [target_col] if c in df.columns]
+    X = df.drop(columns=drop)
+
+    # Parse $-string columns if they survived (fallback)
+    for col in X.columns:
+        if X[col].dtype == object:
+            sample = str(X[col].dropna().iloc[0]) if len(X[col].dropna()) > 0 else ""
+            if sample.startswith("$"):
+                X[col] = X[col].astype(str).str.replace("$", "", regex=False).str.replace(",", "").astype(float)
+
+    # Keep _clean columns, ensure numeric
+    for col in X.select_dtypes(include=["datetime64"]).columns:
+        X = X.drop(columns=[col])
+
+    return X, y, txn_ids
+
+
 def _encode_categories(
     df: pd.DataFrame,
     cat_maps: dict[str, dict] | None = None,
 ) -> tuple[pd.DataFrame, dict[str, dict]]:
-    """
-    Encode category/object columns as int codes.
-    Si cat_maps est fourni (eval), on reutilise le mapping du train.
-    Si cat_maps est None (train), on le construit.
-    """
     out = df.copy()
     fitted_maps: dict[str, dict] = {}
 
@@ -61,6 +91,8 @@ def _encode_categories(
                 out[col] = cat.cat.codes
             fitted_maps[col] = mapping
 
+    # Fill remaining NaN with -1
+    out = out.fillna(-1)
     return out, fitted_maps
 
 
@@ -96,6 +128,9 @@ class MLModel:
     def _objective(self, trial: optuna.Trial, X: pd.DataFrame, y: pd.Series) -> float:
         params = self.optuna_objectives(self.model.name, trial)
         cv_cfg = self.cfg.get("optuna", {})
+        n_trials = cv_cfg.get("n_trials", 20)
+
+        log.info("[Optuna] Trial %d/%d starting...", trial.number + 1, n_trials)
 
         X_train, X_valid, y_train, y_valid = train_test_split(
             X, y,
@@ -106,12 +141,15 @@ class MLModel:
         model = self.model_cls(params=params)
         model.fit(X_train, y_train)
         proba = model.predict_proba(X_valid)
-        return roc_auc_score(y_valid, proba)
+        score = roc_auc_score(y_valid, proba)
+        log.info("[Optuna] Trial %d/%d — ROC-AUC: %.4f", trial.number + 1, n_trials, score)
+        return score
 
     def optimize(self, X: pd.DataFrame, y: pd.Series) -> Dict[str, Any]:
         optuna_cfg = self.cfg.get("optuna", {})
         n_trials = optuna_cfg.get("n_trials", 20)
 
+        log.info("[Optuna] Starting hyperparameter search (%d trials)", n_trials)
         optuna.logging.set_verbosity(optuna.logging.WARNING)
         study = optuna.create_study(direction="maximize")
         study.optimize(lambda trial: self._objective(trial, X, y), n_trials=n_trials)
@@ -199,68 +237,80 @@ class MLModel:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Pipeline fraud detection")
     parser.add_argument("--config", default="params/ml_params.yaml")
-    parser.add_argument("--train-data", required=True, help="Train file (CSV or Parquet, with target)")
-    parser.add_argument("--eval-data", help="Eval file (CSV or Parquet)")
+    parser.add_argument("--train-data", required=True, help="Train file (CSV or Parquet)")
+    parser.add_argument("--test-data", help="Test file (CSV or Parquet, with target for evaluation)")
+    parser.add_argument("--eval-data", help="Eval file (no target, for submission)")
     parser.add_argument("--target-col", default="is_fraud", help="Target column name")
     parser.add_argument("--no-optuna", action="store_true")
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")
 
-    # --- Load train ---
+    # --- Load & prepare train ---
     log.info("Loading train: %s", args.train_data)
-    train_df = _load_file(args.train_data)
-    if args.target_col not in train_df.columns:
-        raise ValueError(f"Colonne '{args.target_col}' absente dans {args.train_data}")
-
-    y_full = train_df[args.target_col].astype(int)
-    X_full, cat_maps = _encode_categories(train_df.drop(columns=[args.target_col]))
+    train_raw = _load_file(args.train_data)
+    X_train_raw, y_train, _ = _prepare_features(train_raw, args.target_col)
+    X_train, cat_maps = _encode_categories(X_train_raw)
     log.info("Train: %d x %d (fraud=%d / %.3f%%)",
-             X_full.shape[0], X_full.shape[1], y_full.sum(), y_full.mean() * 100)
+             X_train.shape[0], X_train.shape[1], y_train.sum(), y_train.mean() * 100)
 
-    # --- Load eval (meme encoding que train) ---
-    X_eval, txn_ids = None, None
+    # --- Load & prepare test (with labels, for evaluation) ---
+    X_test, y_test = None, None
+    if args.test_data:
+        log.info("Loading test: %s", args.test_data)
+        test_raw = _load_file(args.test_data)
+        X_test_raw, y_test, _ = _prepare_features(test_raw, args.target_col)
+        X_test, _ = _encode_categories(X_test_raw, cat_maps=cat_maps)
+        log.info("Test: %d x %d (fraud=%d / %.3f%%)",
+                 X_test.shape[0], X_test.shape[1], y_test.sum(), y_test.mean() * 100)
+
+    # --- Load & prepare eval (no labels, for submission) ---
+    X_eval, txn_ids_eval = None, None
     if args.eval_data:
         log.info("Loading eval: %s", args.eval_data)
-        eval_df = _load_file(args.eval_data)
-        drop_cols = []
-        if args.target_col in eval_df.columns:
-            drop_cols.append(args.target_col)
-        if "transaction_id" in eval_df.columns:
-            txn_ids = eval_df["transaction_id"]
-            drop_cols.append("transaction_id")
-        else:
-            txn_ids = pd.Series(range(len(eval_df)))
-        X_eval, _ = _encode_categories(eval_df.drop(columns=drop_cols), cat_maps=cat_maps)
+        eval_raw = _load_file(args.eval_data)
+        X_eval_raw, _, txn_ids_eval = _prepare_features(eval_raw, args.target_col)
+        X_eval, _ = _encode_categories(X_eval_raw, cat_maps=cat_maps)
+        if txn_ids_eval is None:
+            txn_ids_eval = pd.Series(range(len(X_eval)))
         log.info("Eval: %d x %d", X_eval.shape[0], X_eval.shape[1])
 
-    # --- Phase 1: split, optimize, train, evaluate ---
-    indices = np.arange(len(X_full))
-    train_idx, val_idx = train_test_split(
-        indices, test_size=0.2, random_state=42, stratify=y_full,
-    )
-    X_tr, X_val = X_full.iloc[train_idx], X_full.iloc[val_idx]
-    y_tr, y_val = y_full.iloc[train_idx], y_full.iloc[val_idx]
-
+    # --- Train (Optuna on train, evaluate on test) ---
     ml = MLModel(config_path=args.config)
-    ml.train(X_tr, y_tr, use_optuna=not args.no_optuna)
-    ml.evaluate(X_val, y_val)
+    ml.train(X_train, y_train, use_optuna=not args.no_optuna)
 
-    # --- Phase 2: retrain on full data, save, infer ---
-    log.info("Retraining on full train set...")
-    ml.fit(X_full, y_full)
+    if X_test is not None and y_test is not None:
+        log.info("Evaluating on test set...")
+        ml.evaluate(X_test, y_test)
+
     ml.save()
 
-    if X_eval is not None and txn_ids is not None:
+    # Save category mappings so export_web.py uses identical encoding
+    import json as _json
+    cat_maps_path = Path("outputs/models/cat_maps.json")
+    cat_maps_path.parent.mkdir(parents=True, exist_ok=True)
+    serialisable = {col: {str(k): int(v) for k, v in mapping.items()} for col, mapping in cat_maps.items()}
+    with open(cat_maps_path, "w") as _f:
+        _json.dump(serialisable, _f)
+    log.info("Category maps saved to %s (%d columns)", cat_maps_path, len(serialisable))
+
+    # --- Inference on eval set ---
+    if X_eval is not None:
+        from datetime import datetime
         pred_df = ml.infer(X_eval)
         submission = pd.DataFrame({
-            "transaction_id": txn_ids.values,
+            "transaction_id": txn_ids_eval.values,
             "fraud_prediction": pred_df["fraud_prediction"].values,
         })
-        out_path = Path("outputs/submissions/submission.csv")
-        out_path.parent.mkdir(parents=True, exist_ok=True)
+        stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        out_dir = Path("outputs/submissions")
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_path = out_dir / f"submission_{stamp}.csv"
         submission.to_csv(out_path, index=False)
+        latest = out_dir / "submission.csv"
+        submission.to_csv(latest, index=False)
         log.info("Submission saved to %s (%d rows)", out_path, len(submission))
+        log.info("Latest alias: %s", latest)
 
 
 if __name__ == "__main__":

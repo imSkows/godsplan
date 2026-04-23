@@ -49,12 +49,12 @@ export default function PredictionsVsGroundTruth() {
   if (!ready) return <LoadingScreen message="Loading transactions & labels…" />;
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <BucketCard label="True Positives" count={bucketed.tp.length} color="primary" active={filter === "tp"} onClick={() => setFilter("tp")} />
+    <div className="space-y-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <BucketCard label="True Positives" count={bucketed.tp.length} color="muted" active={filter === "tp"} onClick={() => setFilter("tp")} />
         <BucketCard label="False Positives" count={bucketed.fp.length} color="warning" active={filter === "fp"} onClick={() => setFilter("fp")} />
         <BucketCard label="False Negatives" count={bucketed.fn.length} color="destructive" active={filter === "fn"} onClick={() => setFilter("fn")} />
-        <BucketCard label="True Negatives" count={bucketed.tn.length} color="success" active={filter === "tn"} onClick={() => setFilter("tn")} />
+        <BucketCard label="True Negatives" count={bucketed.tn.length} color="muted" active={filter === "tn"} onClick={() => setFilter("tn")} />
       </div>
 
       <Card>
@@ -112,7 +112,7 @@ export default function PredictionsVsGroundTruth() {
         <CardContent>
           <div className="overflow-auto max-h-[480px] border rounded-md">
             <table className="w-full text-sm">
-              <thead className="bg-muted/50 sticky top-0">
+              <thead className="bg-white/80 backdrop-blur-md sticky top-0 z-10">
                 <tr>
                   <th className="text-left p-2">Transaction</th>
                   <th className="text-left p-2">Date</th>
@@ -166,9 +166,9 @@ function filterLabel(f: Filter) {
 }
 function scatterColor(f: Filter) {
   return {
-    tp: "hsl(var(--primary))",
+    tp: "hsl(var(--muted-foreground))",
     fp: "hsl(var(--warning))",
-    tn: "hsl(var(--success))",
+    tn: "hsl(var(--muted-foreground))",
     fn: "hsl(var(--destructive))",
   }[f];
 }
@@ -176,36 +176,23 @@ function scatterColor(f: Filter) {
 function BucketCard({
   label,
   count,
-  color,
   active,
   onClick,
 }: {
   label: string;
   count: number;
-  color: "primary" | "success" | "warning" | "destructive";
+  color: string;
   active: boolean;
   onClick: () => void;
 }) {
-  const map = {
-    primary: "hover:border-primary",
-    success: "hover:border-success",
-    warning: "hover:border-warning",
-    destructive: "hover:border-destructive",
-  };
-  const activeMap = {
-    primary: "border-primary",
-    success: "border-success",
-    warning: "border-warning",
-    destructive: "border-destructive",
-  };
   return (
     <button
       onClick={onClick}
-      className={`glass text-left rounded-2xl p-4 transition-all hover:-translate-y-0.5 ${map[color]} ${active ? `${activeMap[color]} shadow-lg` : ""}`}
+      className={`glass text-left rounded-xl p-5 ${active ? "border-foreground/30 bg-white/80" : ""}`}
     >
       <div className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium">{label}</div>
       <div className="text-2xl font-bold mt-1 tracking-tight">{formatNumber(count)}</div>
-      <Badge variant={color === "success" ? "success" : color === "warning" ? "warning" : color === "destructive" ? "destructive" : "default"} className="mt-2">
+      <Badge variant="secondary" className="mt-2">
         {label.split(" ").map((w) => w[0]).join("")}
       </Badge>
     </button>

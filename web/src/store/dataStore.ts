@@ -123,12 +123,13 @@ export const useDataStore = create<DataState>((set, get) => ({
   setDateRange: (r) => set({ dateRange: r }),
 
   bootstrap: async () => {
-    if (get().status === "loading" || get().status === "ready") return;
-    set({ status: "loading", error: null, progress: "Loading aggregated metrics..." });
+    if (get().status === "loading") return;
+    const bust = `?t=${Date.now()}`;
+    set({ status: "loading", error: null, progress: "Loading aggregated metrics...", trainTransactions: [], evalTransactions: [] });
     try {
       const [aggregated, mcc, users, cards] = await Promise.all([
-        loadJSON<AggregatedData>(`${DATA_BASE}/aggregated.json`),
-        loadJSON<MCCCodes>(`${DATA_BASE}/mcc_codes.json`),
+        loadJSON<AggregatedData>(`${DATA_BASE}/aggregated.json${bust}`),
+        loadJSON<MCCCodes>(`${DATA_BASE}/mcc_codes.json${bust}`),
         parseCSV<User>({ url: `${DATA_BASE}/users_data.csv`, transform: parseUserRow }),
         parseCSV<Card>({ url: `${DATA_BASE}/cards_data.csv`, transform: parseCardRow }),
       ]);
@@ -141,7 +142,7 @@ export const useDataStore = create<DataState>((set, get) => ({
       let predictionsAvailable = false;
       try {
         const raw = await loadJSON<Record<string, { predicted_fraud: boolean; probability: number }> | { predictions: { transaction_id: string; predicted_fraud: boolean; probability: number }[] }>(
-          `${DATA_BASE}/predictions.json`
+          `${DATA_BASE}/predictions.json${bust}`
         );
         if (Array.isArray((raw as any).predictions)) {
           for (const p of (raw as any).predictions) predictions[p.transaction_id] = p;

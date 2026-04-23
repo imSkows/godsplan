@@ -153,7 +153,7 @@ export default function TransactionSearch() {
               cell: ({ row }) => {
                 const v = labels[row.original.transaction_id];
                 if (!v) return <span className="text-xs text-muted-foreground">—</span>;
-                return v === "Yes" ? <Badge variant="warning">Fraud</Badge> : <Badge variant="success">Legit</Badge>;
+                return v === "Yes" ? <Badge variant="destructive">Fraud</Badge> : <Badge variant="secondary">Legit</Badge>;
               },
             } as ColumnDef<Transaction>,
           ]
@@ -188,7 +188,7 @@ export default function TransactionSearch() {
   const truncated = filtered.length > DISPLAY_CAP;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -244,9 +244,10 @@ export default function TransactionSearch() {
       </Card>
 
       {truncated && (
-        <div className="rounded-lg border-2 border-warning/50 bg-warning/15 px-4 py-3 text-sm font-medium text-foreground shadow-sm">
-          Showing first {formatNumber(DISPLAY_CAP)} of {formatNumber(filtered.length)} matches (sorted).
-          Refine filters to narrow the result set.
+        <div className="flex justify-end px-1">
+          <span className="text-xs text-muted-foreground">
+            Showing first {formatNumber(DISPLAY_CAP)} of {formatNumber(filtered.length)} matches (sorted). Refine filters to narrow the result set.
+          </span>
         </div>
       )}
 
@@ -254,7 +255,7 @@ export default function TransactionSearch() {
         <CardContent className="p-0">
           <div ref={parentRef} className="max-h-[65vh] overflow-auto">
             <table className="w-full text-sm">
-              <thead className="bg-muted/50 sticky top-0 z-10">
+              <thead className="bg-white/80 backdrop-blur-md sticky top-0 z-10">
                 {table.getHeaderGroups().map((hg) => (
                   <tr key={hg.id}>
                     {hg.headers.map((h) => {

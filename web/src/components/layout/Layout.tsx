@@ -14,10 +14,10 @@ export default function Layout() {
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <Header />
-        <main className="flex-1 px-4 md:px-6 pt-4 pb-8 space-y-6">
+        <main className="flex-1 px-4 md:px-8 pt-6 pb-12 space-y-8">
           {status === "loading" && <LoadingScreen message={progress || "Loading..."} />}
           {status === "error" && (
-            <div className="glass rounded-2xl border border-destructive/40 bg-destructive/5 p-6">
+            <div className="glass rounded-xl border border-destructive/20 bg-destructive/5 p-6">
               <div className="font-semibold text-destructive">Failed to load data</div>
               <p className="text-sm text-muted-foreground mt-1">{error}</p>
               <p className="text-xs text-muted-foreground mt-3">

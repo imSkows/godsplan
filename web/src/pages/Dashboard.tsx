@@ -21,14 +21,14 @@ export default function Dashboard() {
   const { summary } = aggregated;
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="space-y-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
           label="Total transactions"
           value={formatNumber(summary.totalTransactions + summary.totalEvaluation)}
           sub={`${formatNumber(summary.totalTransactions)} train + ${formatNumber(summary.totalEvaluation)} eval`}
           icon={CreditCard}
-          accent="primary"
+          accent="muted"
         />
         <MetricCard
           label="Fraud count (train)"
@@ -42,14 +42,14 @@ export default function Dashboard() {
           value={metrics ? formatPercent(metrics.accuracy) : "—"}
           sub={metrics ? `F1 ${formatPercent(metrics.f1)}` : "Awaiting labels"}
           icon={Target}
-          accent="success"
+          accent="muted"
         />
         <MetricCard
           label="Total volume"
           value={formatCurrency(summary.totalAmount)}
           sub={`${summary.dateRange.min.slice(0, 10)} → ${summary.dateRange.max.slice(0, 10)}`}
           icon={AlertTriangle}
-          accent="warning"
+          accent="muted"
         />
       </div>
 

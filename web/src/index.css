@@ -4,47 +4,47 @@
 
 @layer base {
   :root {
-    /* Light mode — refined color palette with better harmony */
-    --background: 220 25% 97%;
+    /* Light mode — clean white/grey */
+    --background: 220 14% 96%;
     --foreground: 222 40% 10%;
 
     --card: 0 0% 100%;
     --card-foreground: 222 40% 10%;
 
-    --primary: 233 85% 62%;            /* vibrant indigo-blue */
+    --primary: 233 85% 62%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 18% 92%;
+    --secondary: 220 18% 96%;
     --secondary-foreground: 222 40% 12%;
 
-    --muted: 220 18% 93%;
+    --muted: 220 18% 96%;
     --muted-foreground: 220 12% 42%;
 
-    --accent: 220 18% 92%;
+    --accent: 220 18% 96%;
     --accent-foreground: 222 40% 12%;
 
-    --destructive: 0 78% 60%;          /* more vibrant red */
+    --destructive: 0 84% 60%;          /* red */
     --destructive-foreground: 0 0% 100%;
 
-    --success: 158 68% 42%;            /* refined green */
+    --success: 142 71% 45%;            /* green */
     --success-foreground: 0 0% 100%;
 
-    --warning: 35 92% 58%;             /* warmer orange */
+    --warning: 35 92% 58%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 220 18% 88%;
-    --input: 220 18% 88%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
     --ring: 233 85% 62%;
 
     /* Glass variables */
     --glass-bg: 0 0% 100%;
-    --glass-alpha: 0.68;
-    --glass-border: 220 35% 82%;
-    --glass-border-alpha: 0.65;
+    --glass-alpha: 0.65;
+    --glass-border: 0 0% 100%;
+    --glass-border-alpha: 0.5;
     --glass-highlight: 0 0% 100%;
-    --glass-shadow: 220 40% 25%;
+    --glass-shadow: 220 15% 20%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
   }
 
   .dark {
@@ -102,20 +102,14 @@
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
     background-color: hsl(var(--background));
     background-image:
-      radial-gradient(950px circle at 10% 5%, hsl(233 95% 75% / 0.32), transparent 48%),
-      radial-gradient(850px circle at 94% 8%, hsl(275 95% 78% / 0.28), transparent 48%),
-      radial-gradient(1050px circle at 50% 106%, hsl(195 95% 70% / 0.28), transparent 52%),
-      radial-gradient(750px circle at 2% 98%, hsl(320 95% 78% / 0.22), transparent 48%);
+      radial-gradient(1200px circle at 15% 10%, hsla(220, 20%, 90%, 1) 0, transparent 40%),
+      radial-gradient(1000px circle at 85% 90%, hsla(220, 20%, 92%, 1) 0, transparent 40%);
     background-attachment: fixed;
     background-repeat: no-repeat;
   }
 
   .dark body {
-    background-image:
-      radial-gradient(950px circle at 10% 5%, hsl(233 90% 58% / 0.26), transparent 48%),
-      radial-gradient(850px circle at 94% 8%, hsl(275 85% 52% / 0.22), transparent 48%),
-      radial-gradient(1050px circle at 50% 106%, hsl(195 85% 48% / 0.22), transparent 52%),
-      radial-gradient(750px circle at 2% 98%, hsl(320 85% 52% / 0.18), transparent 48%);
+    background-color: hsl(var(--background));
   }
 }
 
@@ -126,12 +120,7 @@
    */
   .glass {
     background-color: hsl(var(--glass-bg) / var(--glass-alpha));
-    border: 1px solid hsl(var(--glass-border) / var(--glass-border-alpha));
-    box-shadow:
-      0 1px 0 0 hsl(var(--glass-highlight) / 0.45) inset,
-      0 1px 3px 0 hsl(var(--glass-shadow) / 0.05),
-      0 10px 32px -8px hsl(var(--glass-shadow) / 0.1),
-      0 24px 68px -16px hsl(var(--glass-shadow) / 0.08);
+    border: 1px solid hsl(var(--border));
   }
 
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
@@ -142,20 +131,12 @@
   }
 
   .dark .glass {
-    box-shadow:
-      0 1px 0 0 hsl(var(--glass-highlight) / 0.1) inset,
-      0 2px 4px 0 hsl(var(--glass-shadow) / 0.6),
-      0 10px 32px -8px hsl(var(--glass-shadow) / 0.6),
-      0 24px 68px -16px hsl(var(--glass-shadow) / 0.5);
+    border-color: hsl(var(--border));
   }
 
   .glass-strong {
-    background-color: hsl(var(--glass-bg) / 0.85);
-    border: 1px solid hsl(var(--glass-border) / 0.6);
-    box-shadow:
-      0 1px 0 0 hsl(var(--glass-highlight) / 0.55) inset,
-      0 4px 14px -2px hsl(var(--glass-shadow) / 0.1),
-      0 18px 44px -10px hsl(var(--glass-shadow) / 0.08);
+    background-color: hsl(var(--glass-bg) / 0.8);
+    border: 1px solid hsl(var(--border));
   }
 
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
@@ -167,18 +148,12 @@
 
   .dark .glass-strong {
     background-color: hsl(var(--glass-bg) / 0.75);
-    border-color: hsl(var(--glass-border) / 0.15);
+    border-color: hsl(var(--border));
   }
 
-  /* Raised accent card — gradient wash, used for featured blocks */
   .glass-accent {
-    background:
-      linear-gradient(135deg, hsl(var(--primary) / 0.12), hsl(var(--primary) / 0.03) 65%),
-      hsl(var(--glass-bg) / var(--glass-alpha));
-    border: 1px solid hsl(var(--primary) / 0.25);
-    box-shadow:
-      0 1px 0 0 hsl(var(--primary) / 0.15) inset,
-      0 8px 28px -6px hsl(var(--primary) / 0.12);
+    background-color: hsl(var(--glass-bg) / var(--glass-alpha));
+    border: 1px solid hsl(var(--border));
   }
 }
 
