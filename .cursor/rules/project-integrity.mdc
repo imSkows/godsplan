@@ -9,25 +9,23 @@ alwaysApply: true
 
 ```
 src/
-  mlmodel.py          # inference entrypoint only
-  models/             # one file per model class
+  mlmodel.py          # orchestrateur: train, optimize, infer, save
+  models/             # one file per model class (inherits BaseModel)
 params/
-  ml_params.yaml      # params placeholder, keep minimal
+  ml_params.yaml      # ML config (model, optuna, threshold)
 dataset/              # read-only, never modify
 notebooks/            # one per author/experiment
-res_perf/             # performance outputs only
-outputs/submissions/  # submission CSVs only
-ai/
-  rules/
-  skills/
+outputs/
+  res_perf/           # performance artifacts (metrics, plots, feature importances)
+  submissions/        # submission CSVs only
 ```
 
 ## Rules
 
 - `dataset/` is **read-only** — never write, move, or delete files there
-- `src/mlmodel.py` dispatches only — no model logic inside it
-- New models go in `src/models/` following `BaseFraudModel` interface
+- `src/mlmodel.py` orchestrates training, optimization, inference and saving via `MLModel` class
+- New models go in `src/models/` following `BaseModel` interface
 - `params/ml_params.yaml` stays minimal — no hardcoded paths elsewhere
-- Submissions always go to `outputs/submissions/submission.csv`
-- Performance artifacts (metrics, plots, feature importances) go to `res_perf/`
+- Submissions always go to `outputs/submissions/`
+- Performance artifacts (metrics, plots, feature importances) go to `outputs/res_perf/`
 - Never commit trained model artifacts (`.joblib`) — already in `.gitignore`

@@ -1,1 +1,12 @@
-# But: centraliser plus tard les parametres ML et la liste des modeles testes.
+# Paramètres ML du projet fraud detection
+
+model:
+  name: xgboost
+  threshold: 0.5
+  output_path: outputs/models/xgboost_fraud.joblib
+
+optuna:
+  n_trials: 20
+  validation_size: 0.2
+  random_state: 42
+  n_estimators: 300

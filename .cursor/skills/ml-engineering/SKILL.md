@@ -7,17 +7,17 @@ description: Guides model class creation, inference pipeline design, and product
 
 ## Model Class Convention
 
-Every new model goes in `src/models/<name>_model.py` and inherits `BaseFraudModel`:
+Every new model goes in `src/models/<name>.py` and inherits `BaseModel`:
 
 ```python
-# src/models/lgbm_model.py
+# src/models/lightgbm.py
 from __future__ import annotations
 import joblib
 import pandas as pd
 import lightgbm as lgb
-from .base_model import BaseFraudModel
+from .base_model import BaseModel
 
-class LGBMFraudModel(BaseFraudModel):
+class LightGBM(BaseModel):
     def __init__(self, params: dict | None = None):
         self.params = params or {
             'objective': 'binary', 'metric': 'auc',
@@ -43,7 +43,7 @@ class LGBMFraudModel(BaseFraudModel):
         joblib.dump(self.model, path)
 
     @classmethod
-    def load(cls, path: str) -> "LGBMFraudModel":
+    def load(cls, path: str) -> "LightGBM":
         instance = cls()
         instance.model = joblib.load(path)
         return instance
@@ -54,28 +54,30 @@ class LGBMFraudModel(BaseFraudModel):
 Add to `src/mlmodel.py` `MODEL_REGISTRY`:
 
 ```python
-from models.lgbm_model import LGBMFraudModel
+from models.lightgbm import LightGBM
 
 MODEL_REGISTRY = {
-    "logistic_regression": LogisticFraudModel,
-    "random_forest": RandomForestFraudModel,
-    "lightgbm": LGBMFraudModel,          # add here
+    "xgboost": XGBoost,
+    "lightgbm": LightGBM,     # add here
 }
 ```
 
+Then add an Optuna search space in `MLModel.optuna_objectives()`.
+
 ## Inference Pipeline
 
-`src/mlmodel.py` is the single inference entrypoint:
+`src/mlmodel.py` is the single orchestration entrypoint:
 - Load config from `params/ml_params.yaml`
 - Instantiate model by name via `MODEL_REGISTRY`
-- Call `model.load(path)` then `mlmodel.infer(X)` → returns DataFrame with `fraud_score` + `fraud_prediction`
+- `MLModel.run()` orchestrates: optimize -> train -> save -> infer (optional)
+- `MLModel.infer(X)` returns DataFrame with `fraud_score` + `fraud_prediction`
 
 ## Submission Format
 
 ```python
 submission = pd.DataFrame({
     "transaction_id": eval_df["transaction_id"],
-    "fraud_prediction": preds,            # int 0/1
+    "fraud_prediction": preds,
 })
 submission.to_csv("outputs/submissions/submission.csv", index=False)
 ```
@@ -83,6 +85,6 @@ submission.to_csv("outputs/submissions/submission.csv", index=False)
 ## Code Quality Rules
 
 - No model-specific logic in `mlmodel.py` — only dispatch via registry
-- `BaseFraudModel` interface must stay stable (never remove methods)
+- `BaseModel` interface must stay stable (never remove methods)
 - Each model file is self-contained (imports, save/load)
 - No `print()` in model classes — use `logging`

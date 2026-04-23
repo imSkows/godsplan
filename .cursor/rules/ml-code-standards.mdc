@@ -8,16 +8,22 @@ alwaysApply: false
 
 ## Model Classes
 
-- Inherit `BaseFraudModel` — never break the interface
+- Inherit `BaseModel` from `src/models/base_model.py` — never break the interface
 - `predict()` returns binary `pd.Series` (0/1)
 - `predict_proba()` returns float `pd.Series` (scores)
 - `save()` / `load()` use `joblib`
 - No `print()` — use `logging`
 
+## Hyperparameter Tuning (Optuna)
+
+- New models must include an Optuna search space in `MLModel.optuna_objectives()`
+- Do not hardcode default hyperparameters from docs without an Optuna search
+- Log the search space and best trial parameters so the choice is reproducible
+- Keep the selected defaults in config/code aligned with the Optuna best trial
+
 ## Type Hints
 
 ```python
-# ✅ Always type hint public methods
 def fit(self, X: pd.DataFrame, y: pd.Series) -> None: ...
 def predict_proba(self, X: pd.DataFrame) -> pd.Series: ...
 ```
@@ -29,14 +35,13 @@ def predict_proba(self, X: pd.DataFrame) -> pd.Series: ...
 model = joblib.load("src/models/my_model.joblib")
 
 # ✅ read from config
-from fraud_detection.config import load_config
-cfg = load_config("params/ml_params.yaml")
+cfg = yaml.safe_load(open("params/ml_params.yaml"))
 ```
 
 ## Imbalance Handling
 
 Always address the ~0.15% fraud rate explicitly:
-- LightGBM: `is_unbalance=True`
 - XGBoost: `scale_pos_weight=ratio`
+- LightGBM: `is_unbalance=True`
 - sklearn: `class_weight='balanced'` or `'balanced_subsample'`
 - Never evaluate with accuracy — use ROC-AUC or PR-AUC

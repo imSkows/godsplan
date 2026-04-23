@@ -9,7 +9,7 @@ description: Guides EDA, feature engineering, and model exploration for fraud de
 
 When exploring a new dataset:
 - Shape, dtypes, missing values per table
-- Target distribution → always plot and print imbalance ratio
+- Target distribution — always plot and print imbalance ratio
 - Distributions: numeric (log scale for amounts), categorical (use_chip, mcc, merchant_state)
 - Correlations between features and fraud label
 - Temporal patterns: hour, day_of_week, month
@@ -32,10 +32,8 @@ Forbidden features:
 ## Feature Engineering Conventions
 
 ```python
-# Always log-transform skewed amounts
 df['log_amount'] = np.log1p(df['amount'].clip(lower=0))
 
-# Temporal
 df['hour'] = df['date'].dt.hour
 df['is_night'] = df['hour'].between(0, 5).astype(int)
 df['is_weekend'] = (df['date'].dt.dayofweek >= 5).astype(int)
@@ -48,10 +46,10 @@ df['mcc_fraud_rate'] = df['mcc'].map(mcc_rates).fillna(global_rate)
 ## Notebook Conventions
 
 - One notebook per author/experiment: `notebooks/exploration_<name>.ipynb`
-- Cell order: imports → load → EDA → features → model sketch
-- Save outputs (plots, stats) in `res_perf/` if shareable
+- Cell order: imports -> load -> EDA -> features -> model sketch
+- Save outputs (plots, stats) in `outputs/res_perf/` if shareable
 
 ## Metrics
 
-Primary: `ROC-AUC`  
+Primary: `ROC-AUC`
 Secondary: `PR-AUC` (more informative on extreme imbalance), `F1` with threshold search

@@ -10,8 +10,8 @@ alwaysApply: true
 ```
 main              # stable, soumission-ready
 <prenom>          # branche personnelle d'exploration (ex: anthony, skows)
-feat/<feature>    # nouvelle feature engineering ou modèle
-exp/<experiment>  # expérimentation isolée
+feat/<feature>    # nouvelle feature engineering ou modele
+exp/<experiment>  # experimentation isolee
 fix/<bug>         # correction
 ```
 
@@ -28,7 +28,7 @@ Examples:
 feat: add lgbm model class with is_unbalance
 exp: test catboost on mcc target encoded features
 fix: correct amount parsing for negative values
-model: register lightgbm v2 in mlflow
+model: register lightgbm in model registry
 ```
 
 ## Rules

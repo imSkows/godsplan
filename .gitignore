@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 venv/
 
-outputs/models/*.joblib
+*.joblib
 outputs/submissions/*.csv
+mlruns/
 .godsplan_sync/
