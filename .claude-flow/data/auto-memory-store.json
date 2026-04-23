@@ -1,0 +1,172 @@
+[
+  {
+    "id": "mem-MEMORY-user",
+    "key": "user",
+    "content": "- [user_profile.md](user_profile.md) — Paul's background as a CS/Data Science student and current learning goals",
+    "summary": "User",
+    "namespace": "core",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul/memory/MEMORY.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232924
+  },
+  {
+    "id": "mem-user_profile----",
+    "key": "-",
+    "content": "name: user_profile\ndescription: Paul's background, goals, and current learning context\ntype: user\n---\n\n4th year Computer Science Engineering student, majoring in Data Science.\n\nRecently subscribed to Claude Pro. Currently learning Claude Code via a YouTube course (~4h) before diving deeper into RuFlo V3 (claude-flow).\n\nWants to understand how Claude and Claude Code work fundamentals-first, before leveraging advanced tooling like RuFlo.\n\nAware that RuFlo reduces token consumption but intentionall",
+    "summary": "---",
+    "namespace": "user_profile",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul/memory/user_profile.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232924
+  },
+  {
+    "id": "mem-MEMORY-memory-index",
+    "key": "memory-index",
+    "content": "- [user_profile.md](user_profile.md) — Profil complet Paul Pelletier (CV, compétences, expériences, objectif stage M2 data mars 2027)\n- [lm_style.md](lm_style.md) — Style, structure et formules des lettres de motivation + liste des LM existantes\n- [reference_excel.md](reference_excel.md) — Chemin et structure du fichier Excel OneDrive de suivi des candidatures",
+    "summary": "Memory Index",
+    "namespace": "core",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul-code-claude-m2-internship-app/memory/MEMORY.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232925
+  },
+  {
+    "id": "mem-lm_style----",
+    "key": "-",
+    "content": "name: Style lettres de motivation Paul\ndescription: Structure, ton et formules récurrentes des LM de Paul pour reproduction fidèle\ntype: user\n---",
+    "summary": "---",
+    "namespace": "lm_style",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul-code-claude-m2-internship-app/memory/lm_style.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232925
+  },
+  {
+    "id": "mem-lm_style-structure-type--4-5-paragraphe",
+    "key": "structure-type-4-5-paragraphes-",
+    "content": "1. **Intro** : \"Actuellement en dernière année du diplôme d'ingénieur à l'EFREI Paris, spécialisé en Data – Business Intelligence and Analytics, je souhaite candidater au [poste] au sein de [entreprise/équipe]. [Phrase d'accroche sur l'enjeu du poste].\"\n\n2. **Expérience CEA** (paragraphe central) : Stage CEA comme référence principale — chiffres clés : 500k+ lignes SAP/SAGA, 40k+ marchés/an, 1,2Md€/an, API Pappers Python, Power BI. Adapter selon le type de poste (BI → dashboards/indicateurs ; Da",
+    "summary": "Structure type (4-5 paragraphes)",
+    "namespace": "lm_style",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul-code-claude-m2-internship-app/memory/lm_style.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232925
+  },
+  {
+    "id": "mem-lm_style-ton",
+    "key": "ton",
+    "content": "- Professionnel, factuel, sans fioritures\n- Chiffres et impacts concrets systématiquement\n- Pas de mise en page complexe — texte justifié, paragraphes séparés\n- En-tête : \"Cher recruteur / recruteuse,\"",
+    "summary": "Ton",
+    "namespace": "lm_style",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul-code-claude-m2-internship-app/memory/lm_style.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232925
+  },
+  {
+    "id": "mem-lm_style-lm-existantes--docs-lettres-mo",
+    "key": "lm-existantes-docs-lettres-motivation-",
+    "content": "- EDF — Ingénieur Informatique (Supply Chain / Essais Non Destructifs)\n- Canal+ — Data Scientist (scoring, segmentation, ML marketing)\n- Stellantis — Business Intelligence Analyst\n- Stellantis — Sales & Marketing Data Analyst\n- Stellantis — Chargé d'étude IA (Domaine Coûts Véhicule)\n- Stellantis — Assistant AI Governance\n- Crédit Agricole — Stage Data Scientist Audit Data Driven\n- Crédit Agricole — Assistant Data Scientist\n- Sony — Data Scientist\n- VINCI — Stage Ingénieur IA\n- VINCI — Stage Anal",
+    "summary": "LM existantes (docs/Lettres motivation/)",
+    "namespace": "lm_style",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul-code-claude-m2-internship-app/memory/lm_style.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232925
+  },
+  {
+    "id": "mem-reference_excel----",
+    "key": "-",
+    "content": "name: Fichier suivi candidatures Excel\ndescription: Structure et chemin du fichier Excel OneDrive de suivi des candidatures\ntype: reference\n---\n\n**Path:** `/Users/paul/Library/CloudStorage/OneDrive-Efrei/M1/Stage M2/Suivi Stages.xlsx`\n**Python à utiliser:** `/opt/miniconda3/bin/python3` (openpyxl disponible)",
+    "summary": "---",
+    "namespace": "reference_excel",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul-code-claude-m2-internship-app/memory/reference_excel.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232926
+  },
+  {
+    "id": "mem-reference_excel-feuille--stages-demandes-",
+    "key": "feuille-stages-demandes-",
+    "content": "- Ligne 1 : vide\n- Ligne 2 : en-têtes\n- Colonnes (B à K) :\n  - B : Id (ArrayFormula auto — NE PAS TOUCHER)\n  - C : Date candidature (datetime)\n  - D : Date de réponse (datetime)\n  - E : Titre du stage\n  - F : Thème\n  - G : Département\n  - H : Ville\n  - I : Entreprise\n  - J : Etat (valeur parmi Réfs)\n  - K : Lien",
+    "summary": "Feuille \"Stages Demandes\"",
+    "namespace": "reference_excel",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul-code-claude-m2-internship-app/memory/reference_excel.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232926
+  },
+  {
+    "id": "mem-reference_excel-etats-possibles--feuille--r-fs",
+    "key": "etats-possibles-feuille-r-fs-",
+    "content": "- Demande envoyée\n- CV refusé\n- CV accepté\n- Entretien\n- Pris",
+    "summary": "Etats possibles (feuille \"Réfs\")",
+    "namespace": "reference_excel",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul-code-claude-m2-internship-app/memory/reference_excel.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232926
+  },
+  {
+    "id": "mem-reference_excel-r-gles-d--criture",
+    "key": "r-gles-d-criture",
+    "content": "- Ajouter les nouvelles lignes à la suite de la dernière ligne remplie\n- Ne jamais modifier la colonne B (formule auto Id)\n- Dates au format datetime Python\n- Toujours relire le fichier avant d'écrire pour trouver la bonne ligne",
+    "summary": "Règles d'écriture",
+    "namespace": "reference_excel",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul-code-claude-m2-internship-app/memory/reference_excel.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232926
+  },
+  {
+    "id": "mem-user_profile----",
+    "key": "-",
+    "content": "name: Paul Pelletier - Profil complet\ndescription: Profil détaillé de Paul pour candidatures stage M2 data\ntype: user\n---\n\n**Paul Pelletier** — Étudiant M2 EFREI Paris, spécialité Data - Business Intelligence and Analytics (diplôme ingénieur août 2027)\n\n**Contact:** +33 7 68 25 59 97 | paulppjp.pelletier@gmail.com | Saint-Rémy-Les-Chevreuse 78470 | LinkedIn: Paul Pelletier | GitHub: 3arly1\n\n**Objectif:** Stage data 5-6 mois à partir de mars 2027 (20 semaines)\n\n**Préférences stage:**\n- Secteur pr",
+    "summary": "---",
+    "namespace": "user_profile",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/paul/.claude/projects/-Users-paul-code-claude-m2-internship-app/memory/user_profile.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1776933232926
+  },
+  {
+    "id": "insight-1776935612929-3jk0",
+    "key": "frequent-edit-unknown",
+    "content": "File unknown was edited 80 times this session — likely a hot path worth monitoring.",
+    "summary": "Frequently edited: unknown (80x)",
+    "namespace": "insights",
+    "type": "procedural",
+    "metadata": {
+      "sourceFile": "unknown",
+      "editCount": 80,
+      "autoGenerated": true
+    },
+    "createdAt": 1776935612929
+  }
+]

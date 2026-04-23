@@ -1,0 +1,12 @@
+{
+  "id": "session-1776935967591",
+  "startedAt": "2026-04-23T09:19:27.591Z",
+  "cwd": "/Users/paul/code/m1/ibm_hackathon",
+  "context": {},
+  "metrics": {
+    "edits": 0,
+    "commands": 0,
+    "tasks": 0,
+    "errors": 0
+  }
+}
