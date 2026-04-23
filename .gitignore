@@ -1,10 +1,23 @@
+# Node/Frontend
+node_modules
+dist
+.DS_Store
+.env*
+*.log
+.vite
+public/data/*.csv
+public/data/*.json
+!public/data/.gitkeep
+
+# Python/Backend
 __pycache__/
 *.pyc
-.DS_Store
 .venv/
 venv/
 
+# Project specific
 *.joblib
 outputs/submissions/*.csv
 mlruns/
 .godsplan_sync/
+.claude-flow/

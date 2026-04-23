@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "updatedAt": 1776937574827,
+  "nodeCount": 12,
+  "nodes": {
+    "mem-MEMORY-user": {
+      "id": "mem-MEMORY-user",
+      "category": "core",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232924
+    },
+    "mem-user_profile----": {
+      "id": "mem-user_profile----",
+      "category": "user_profile",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232926
+    },
+    "mem-MEMORY-memory-index": {
+      "id": "mem-MEMORY-memory-index",
+      "category": "core",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232925
+    },
+    "mem-lm_style----": {
+      "id": "mem-lm_style----",
+      "category": "lm_style",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232925
+    },
+    "mem-lm_style-structure-type--4-5-paragraphe": {
+      "id": "mem-lm_style-structure-type--4-5-paragraphe",
+      "category": "lm_style",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232925
+    },
+    "mem-lm_style-ton": {
+      "id": "mem-lm_style-ton",
+      "category": "lm_style",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232925
+    },
+    "mem-lm_style-lm-existantes--docs-lettres-mo": {
+      "id": "mem-lm_style-lm-existantes--docs-lettres-mo",
+      "category": "lm_style",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232925
+    },
+    "mem-reference_excel----": {
+      "id": "mem-reference_excel----",
+      "category": "reference_excel",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232926
+    },
+    "mem-reference_excel-feuille--stages-demandes-": {
+      "id": "mem-reference_excel-feuille--stages-demandes-",
+      "category": "reference_excel",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232926
+    },
+    "mem-reference_excel-etats-possibles--feuille--r-fs": {
+      "id": "mem-reference_excel-etats-possibles--feuille--r-fs",
+      "category": "reference_excel",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232926
+    },
+    "mem-reference_excel-r-gles-d--criture": {
+      "id": "mem-reference_excel-r-gles-d--criture",
+      "category": "reference_excel",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776933232926
+    },
+    "insight-1776935612929-3jk0": {
+      "id": "insight-1776935612929-3jk0",
+      "category": "insights",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1776935612929
+    }
+  },
+  "edges": [
+    {
+      "sourceId": "mem-lm_style----",
+      "targetId": "mem-lm_style-structure-type--4-5-paragraphe",
+      "type": "temporal",
+      "weight": 0.5
+    },
+    {
+      "sourceId": "mem-lm_style-structure-type--4-5-paragraphe",
+      "targetId": "mem-lm_style-ton",
+      "type": "temporal",
+      "weight": 0.5
+    },
+    {
+      "sourceId": "mem-lm_style-ton",
+      "targetId": "mem-lm_style-lm-existantes--docs-lettres-mo",
+      "type": "temporal",
+      "weight": 0.5
+    },
+    {
+      "sourceId": "mem-reference_excel----",
+      "targetId": "mem-reference_excel-feuille--stages-demandes-",
+      "type": "temporal",
+      "weight": 0.5
+    },
+    {
+      "sourceId": "mem-reference_excel-feuille--stages-demandes-",
+      "targetId": "mem-reference_excel-etats-possibles--feuille--r-fs",
+      "type": "temporal",
+      "weight": 0.5
+    },
+    {
+      "sourceId": "mem-reference_excel-etats-possibles--feuille--r-fs",
+      "targetId": "mem-reference_excel-r-gles-d--criture",
+      "type": "temporal",
+      "weight": 0.5
+    }
+  ],
+  "pageRanks": {
+    "mem-MEMORY-user": 0.04712925732508885,
+    "mem-user_profile----": 0.04712925732508885,
+    "mem-MEMORY-memory-index": 0.04712925732508885,
+    "mem-lm_style----": 0.04712925732508885,
+    "mem-lm_style-structure-type--4-5-paragraphe": 0.08718909836088182,
+    "mem-lm_style-ton": 0.12123992563292878,
+    "mem-lm_style-lm-existantes--docs-lettres-mo": 0.15018320403092286,
+    "mem-reference_excel----": 0.04712925732508885,
+    "mem-reference_excel-feuille--stages-demandes-": 0.08718909836088182,
+    "mem-reference_excel-etats-possibles--feuille--r-fs": 0.12123992563292878,
+    "mem-reference_excel-r-gles-d--criture": 0.15018320403092286,
+    "insight-1776935612929-3jk0": 0.04712925732508885
+  }
+}

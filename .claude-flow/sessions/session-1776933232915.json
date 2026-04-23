@@ -1,0 +1,23 @@
+{
+  "id": "session-1776933232915",
+  "startedAt": "2026-04-23T08:33:52.915Z",
+  "cwd": "/Users/paul/code/m1/ibm_hackathon",
+  "context": {
+    "lastMatchedPatterns": [
+      "mem-user_profile----",
+      "mem-lm_style-lm-existantes--docs-lettres-mo",
+      "mem-reference_excel-r-gles-d--criture",
+      "mem-MEMORY-user",
+      "mem-lm_style-ton"
+    ]
+  },
+  "metrics": {
+    "edits": 80,
+    "commands": 0,
+    "tasks": 0,
+    "errors": 0
+  },
+  "updatedAt": "2026-04-23T08:58:53.224Z",
+  "endedAt": "2026-04-23T09:13:32.934Z",
+  "duration": 2380024
+}
