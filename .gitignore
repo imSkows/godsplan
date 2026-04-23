@@ -19,3 +19,4 @@ venv/
 outputs/models/*.joblib
 outputs/submissions/*.csv
 .godsplan_sync/
+.claude-flow/

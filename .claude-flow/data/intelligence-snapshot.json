@@ -104,5 +104,111 @@
         "accessCount": 0
       }
     ]
+  },
+  {
+    "timestamp": 1776937574827,
+    "nodes": 12,
+    "edges": 6,
+    "pageRankSum": 1,
+    "confidences": [
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "accessCounts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "topPatterns": [
+      {
+        "id": "mem-lm_style-lm-existantes--docs-lettres-mo",
+        "summary": "LM existantes (docs/Lettres motivation/)",
+        "confidence": 0.5,
+        "pageRank": 0.15018320403092286,
+        "accessCount": 0
+      },
+      {
+        "id": "mem-reference_excel-r-gles-d--criture",
+        "summary": "Règles d'écriture",
+        "confidence": 0.5,
+        "pageRank": 0.15018320403092286,
+        "accessCount": 0
+      },
+      {
+        "id": "mem-lm_style-ton",
+        "summary": "Ton",
+        "confidence": 0.5,
+        "pageRank": 0.12123992563292878,
+        "accessCount": 0
+      },
+      {
+        "id": "mem-reference_excel-etats-possibles--feuille--r-fs",
+        "summary": "Etats possibles (feuille \"Réfs\")",
+        "confidence": 0.5,
+        "pageRank": 0.12123992563292878,
+        "accessCount": 0
+      },
+      {
+        "id": "mem-lm_style-structure-type--4-5-paragraphe",
+        "summary": "Structure type (4-5 paragraphes)",
+        "confidence": 0.5,
+        "pageRank": 0.08718909836088182,
+        "accessCount": 0
+      },
+      {
+        "id": "mem-reference_excel-feuille--stages-demandes-",
+        "summary": "Feuille \"Stages Demandes\"",
+        "confidence": 0.5,
+        "pageRank": 0.08718909836088182,
+        "accessCount": 0
+      },
+      {
+        "id": "mem-MEMORY-user",
+        "summary": "User",
+        "confidence": 0.5,
+        "pageRank": 0.04712925732508885,
+        "accessCount": 0
+      },
+      {
+        "id": "mem-user_profile----",
+        "summary": "---",
+        "confidence": 0.5,
+        "pageRank": 0.04712925732508885,
+        "accessCount": 0
+      },
+      {
+        "id": "mem-MEMORY-memory-index",
+        "summary": "Memory Index",
+        "confidence": 0.5,
+        "pageRank": 0.04712925732508885,
+        "accessCount": 0
+      },
+      {
+        "id": "mem-lm_style----",
+        "summary": "---",
+        "confidence": 0.5,
+        "pageRank": 0.04712925732508885,
+        "accessCount": 0
+      }
+    ]
   }
 ]
