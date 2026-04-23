@@ -1,3 +1,4 @@
+# Node/Frontend
 node_modules
 dist
 .DS_Store
@@ -7,3 +8,14 @@ dist
 public/data/*.csv
 public/data/*.json
 !public/data/.gitkeep
+
+# Python/Backend
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Project specific
+outputs/models/*.joblib
+outputs/submissions/*.csv
+.godsplan_sync/
